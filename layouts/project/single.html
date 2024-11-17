@@ -1,0 +1,41 @@
+{{ define "main" }}
+<article class="project">
+    <header>
+        <h1>{{ .Title }}</h1>
+        
+        <div class="project-meta">
+            {{ with .Params.project_home }}
+            <a href="{{ . }}" class="project-link">Project Home</a>
+            {{ end }}
+            
+            {{ with .Params.project_repo }}
+            <a href="{{ . }}" class="project-link">Repository</a>
+            {{ end }}
+            
+            {{ with .Params.status }}
+            <span class="project-status {{ . }}">{{ . }}</span>
+            {{ end }}
+            
+            {{ with .Params.version }}
+            <span class="project-version">v{{ . }}</span>
+            {{ end }}
+        </div>
+
+        {{ with .Params.description }}
+        <p class="project-description">{{ . }}</p>
+        {{ end }}
+        
+        {{ with .Params.tech_stack }}
+        <div class="tech-stack">
+            {{ range . }}
+            <span class="tech-item">{{ . }}</span>
+            {{ end }}
+        </div>
+        {{ end }}
+    </header>
+
+    <div class="content">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}

@@ -2,23 +2,9 @@
   <div id="gallery" style="visibility: hidden; height: 1px; overflow: hidden">
     {{ $images := slice }}
     {{ range $image := .Resources.ByType "image" }}
-      {{ $title := "" }}
-      {{ $date := "" }}
-      {{ with $image.Exif }}
-        {{ $date = .Date }}
-        {{ with .Tags.ImageDescription }}
-          {{/* Title from EXIF ImageDescription */}}
-          {{ $title = . }}
-        {{ end }}
-      {{ end }}
-      {{ if ne $image.Title $image.Name }}
-        {{/* Title from front matter */}}
-        {{ $title = $image.Title }}
-      {{ end }}
       {{ $images = $images | append (dict
         "Name" $image.Name
-        "Title" $title
-        "Date" $date
+        "Title" $image.Title
         "image" $image
         )
       }}
@@ -32,11 +18,6 @@
           <img class="lazyload" width="{{ $thumbnail.Width }}" height="{{ $thumbnail.Height }}" data-src="{{ $thumbnail.RelPermalink }}" alt="{{ .Title }}" />
         </figure>
         <meta itemprop="contentUrl" content="{{ $image.RelPermalink }}" />
-        {{ with site.Params.Author }}
-          <span itemprop="creator" itemtype="https://schema.org/Person" itemscope>
-            <meta itemprop="name" content="{{ site.Params.Author.name }}" />
-          </span>
-        {{ end }}
       </a>
     {{ end }}
   </div>
